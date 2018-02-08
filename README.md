@@ -2,10 +2,10 @@
 
 Organize wallpapers by image ratio (16:9, 16:8, 21:9, etc).
 
-Dependencies: pillow
+Dependencies: 
+pillow: ```pip install pillow```
 
-```pip install pillow```
-```python wp_organizer.py```
+To run, simply: ```python wp_organizer.py```
 
 Choose default directories by changing the ```WP_TEMP_DIR``` and ```WP_FINAL_DIR``` variables in the beginning of the script.
 
