@@ -1,9 +1,16 @@
 #!/usr/bin/env python
 
-'''
-    wp_organizer.py - A wallpaper organizer
-    Version: 0.1
-'''
+#######################################################################
+## wp_organizer.py - A wallpaper organizer
+#######################################################################
+## License: MIT
+#######################################################################
+## Author: Pedro H. G. Souto
+## Version: 0.2
+## Mmaintainer: Pedro H. G. Souto
+## Email: phgsouto (a) gmail dot com
+## Status: development
+#######################################################################
 
 import os
 from PIL import Image
