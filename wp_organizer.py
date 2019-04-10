@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 '''
     wp_organizer.py - A wallpaper organizer
     Version: 0.1
