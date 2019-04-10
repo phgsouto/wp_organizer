@@ -13,10 +13,15 @@
 #######################################################################
 
 import os
-from PIL import Image
 
-WP_TEMP_DIR = 'E:\\Pedro\\Pictures\\Wallpapers\\temp'
-WP_FINAL_DIR = 'E:\\Pedro\\Pictures\\Wallpapers'
+try:
+    from PIL import Image
+except ImportError:
+    raise ImportError('Pillow not found.')
+
+
+WP_TEMP_DIR = 'C:\\Users\\Pedro\\wp\\temp'
+WP_FINAL_DIR = 'C:\\Users\\Pedro\\wp'
 
 
 def main():
