@@ -1,33 +1,48 @@
 #!/usr/bin/env python
-
-#######################################################################
-## wp_organizer.py - A wallpaper organizer
-#######################################################################
-## License: MIT
-#######################################################################
-## Author: Pedro H. G. Souto
-## Version: 0.2
-## Mmaintainer: Pedro H. G. Souto
-## Email: phgsouto (a) gmail dot com
-## Status: development
-#######################################################################
-
+# -*- coding: utf-8 -*-
+# ---------------------------------------------------------------------------- #
+#                                    Imports                                   #
+# ---------------------------------------------------------------------------- #
 import os
-
+import argparse
 try:
     from PIL import Image
 except ImportError:
     raise ImportError('Pillow not found.')
 
+# ---------------------------------------------------------------------------- #
+#                                 Package Info                                 #
+# ---------------------------------------------------------------------------- #
+__package__ = "wp_organizer"
+__author__ = "Pedro H. G. Souto"
+__license__ = "MIT"
+__version__ = "0.2"
+__maintainer__ = "Pedro H. G. Souto"
+__email__ = "phgsouto (a) gmail dot com"
+__status__ = "development"
 
-WP_TEMP_DIR = 'C:\\Users\\Pedro\\wp\\temp'
-WP_FINAL_DIR = 'C:\\Users\\Pedro\\wp'
-
-
+# ---------------------------------------------------------------------------- #
+#                             Function declarations                            #
+# ---------------------------------------------------------------------------- #
 def main():
-    print('~~ wp_organizer -- A wallpaper organizer! ~~')
-    temp_wallpapers = os.listdir(WP_TEMP_DIR)
 
+    parser = argparse.ArgumentParser(description='A simple wallpaper organizer')
+    parser.add_argument("-V", "--version", 
+                        help="print version information",
+                        action="store_true")
+    parser.add_argument("-d", "--dest",
+                        help="destination directory")
+    args = parser.parse_args()
+
+    if args.version:
+        print(__package__,"version",__version__)
+    
+    if args.dest:
+        destination_directory = args.dest
+    else:
+        destination_directory = os.getcwd()
+
+    temp_wallpapers = os.listdir(os.getcwd())
     image_and_ratios = {}
 
     for f in temp_wallpapers:
@@ -35,15 +50,34 @@ def main():
             temp_wallpapers.remove(f)
         else:
             image_and_ratios[f] = get_ratio(
-                get_img_dimensions(WP_TEMP_DIR + '\\' + f))
+                get_img_dimensions(destination_directory + '\\' + f))
 
-    for image, ratio in image_and_ratios.items():
-        move_files(image, ratio)
+    if len(image_and_ratios) > 0:
+        for image, ratio in image_and_ratios.items():
+            move_files(destination_directory, ratio, image)
+    else:
+        print('There is no images in the current directory')
 
 
 def is_image(filename=None):
+    image_formats = ['ase', 'art', 'bmp', 'blp', 'cd5', 'cit', 'cpt', 'cr2', 
+                     'cut', 'dds', 'dib', 'djvu', 'egt', 'exif', 'gif', 'gpl', 
+                     'grf', 'icns', 'ico', 'iff', 'jng', 'jpeg', 'jpg', 'jfif', 
+                     'jp2', 'jps', 'lbm', 'max', 'miff', 'mng', 'msp', 'nitf', 
+                     'ota', 'pbm', 'pc1', 'pc2', 'pc3', 'pcf', 'pcx', 'pdn', 
+                     'pgm', 'PI1', 'PI2', 'PI3', 'pict', 'pct', 'pnm', 'pns', 
+                     'ppm', 'psb', 'psd', 'pdd', 'psp', 'px', 'pxm', 'pxr', 
+                     'qfx', 'raw', 'rle', 'sct', 'sgi', 'rgb', 'int', 'bw', 
+                     'tga', 'tiff', 'tif', 'vtf', 'xbm', 'xcf', 'xpm', '3dv', 
+                     'amf', 'ai', 'awg', 'cgm', 'cdr', 'cmx', 'dxf', 'e2d', 
+                     'egt', 'eps', 'fs', 'gbr', 'odg', 'svg', 'stl', 'vrml', 
+                     'x3d', 'sxd', 'v2d', 'vnd', 'wmf', 'emf', 'art', 'xar', 
+                     'png', 'webp', 'jxr', 'hdp', 'wdp', 'cur', 'ecw', 'iff', 
+                     'lbm', 'liff', 'nrrd', 'pam', 'pcx', 'pgf', 'sgi', 'rgb', 
+                     'rgba', 'bw', 'int', 'inta', 'sid', 'ras', 'sun', 'tga' ]
+    
     if type(filename).__name__ == 'str':
-        if filename.split('.')[-1] in ['png', 'jpg', 'jpeg']:
+        if filename.split('.')[-1] in image_formats:
             return True
     return False
 
@@ -90,9 +124,9 @@ def get_ratio(size):
     return -1
 
 
-def move_files(filename, directory):
-    dir_path = WP_FINAL_DIR + '\\' + directory
-    file_old_path = WP_TEMP_DIR + '\\' + filename
+def move_files(directory, subdirectory, filename):
+    dir_path = directory + '\\' + subdirectory
+    file_old_path = os.getcwd() + '\\' + filename
     file_new_path = dir_path + '\\' + filename
 
     if not os.path.exists(dir_path):
