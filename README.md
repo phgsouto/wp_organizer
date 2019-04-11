@@ -10,8 +10,8 @@ pillow:
 
 `pip install pillow`
 
-To run, simply: `python wp_organizer.py`
+To run, go to your wallpaper directory and run: `python path/to/wp_organizer.py`
 
-Choose default directories by changing the `WP_TEMP_DIR` and `WP_FINAL_DIR` variables in the beginning of the script.
+To know more, run `python path/to/wp_organizer.py --help`
 
 Enjoy!
