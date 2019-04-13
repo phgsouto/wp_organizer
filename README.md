@@ -1,6 +1,6 @@
 # wp_organizer - A wallpaper organizer!
 
-Version: 0.2
+Version: 0.2.1
 
 Organize wallpapers by image ratio (16:9, 16:8, 21:9, etc).
 

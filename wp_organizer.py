@@ -5,6 +5,7 @@
 # ---------------------------------------------------------------------------- #
 import os
 import argparse
+from pathlib import Path
 try:
     from PIL import Image
 except ImportError:
@@ -16,7 +17,7 @@ except ImportError:
 __package__ = "wp_organizer"
 __author__ = "Pedro H. G. Souto"
 __license__ = "MIT"
-__version__ = "0.2"
+__version__ = "0.2.1"
 __maintainer__ = "Pedro H. G. Souto"
 __email__ = "phgsouto (a) gmail dot com"
 __status__ = "development"
@@ -38,11 +39,11 @@ def main():
         print(__package__,"version",__version__)
     
     if args.dest:
-        destination_directory = args.dest
+        destination_directory = Path(args.dest)
     else:
-        destination_directory = os.getcwd()
+        destination_directory = Path(os.getcwd())
 
-    temp_wallpapers = os.listdir(os.getcwd())
+    temp_wallpapers = os.listdir(Path(os.getcwd()))
     image_and_ratios = {}
 
     for f in temp_wallpapers:
@@ -50,7 +51,7 @@ def main():
             temp_wallpapers.remove(f)
         else:
             image_and_ratios[f] = get_ratio(
-                get_img_dimensions(destination_directory + '\\' + f))
+                get_img_dimensions(destination_directory / f))
 
     if len(image_and_ratios) > 0:
         for image, ratio in image_and_ratios.items():
@@ -125,9 +126,9 @@ def get_ratio(size):
 
 
 def move_files(directory, subdirectory, filename):
-    dir_path = directory + '\\' + subdirectory
-    file_old_path = os.getcwd() + '\\' + filename
-    file_new_path = dir_path + '\\' + filename
+    dir_path = directory / subdirectory
+    file_old_path = Path(os.getcwd()) / filename
+    file_new_path = dir_path / filename
 
     if not os.path.exists(dir_path):
         os.makedirs(dir_path)
